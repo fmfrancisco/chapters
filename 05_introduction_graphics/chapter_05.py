@@ -26,7 +26,6 @@ font = pygame.font.SysFont('calibri', 25, True, False)
 score = 0
 text = font.render(f'Score: {str(score)}', True, BLACK)
 
-
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
