@@ -8,22 +8,16 @@ def terminate():
     sys.exit()
 
 
-def draw_tree(screen, x, y):
-    pygame.draw.rect(screen, BROWN, (60+x, 400+y, 30, 45))
-    pygame.draw.polygon(screen, GREEN, ((150+x, 400+y), (75+x, 250+y), (x, 400+y)))
-    pygame.draw.polygon(screen, GREEN, ((140+x, 350+y), (75+x, 230+y), (10+x, 350+y)))
-
 BLACK = pygame.Color('black')
 WHITE = pygame.Color('white')
 RED = pygame.Color('red')
 GREEN = pygame.Color('green')
 BLUE = pygame.Color('blue')
-BROWN = pygame.Color('brown')
 
 FPS = 30
 
-SCREEN_WIDTH = 500
-SCREEN_HEIGHT = 500
+SCREEN_WIDTH = 502
+SCREEN_HEIGHT = 402
 
 
 def main():
@@ -31,9 +25,14 @@ def main():
 
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     pygame.display.set_caption('Chapter 07')
+    pygame.mouse.set_visible(False)
 
-    bg_screen = pygame.Surface(screen.get_size()).convert()
-    bg_screen.fill(WHITE)
+    bg_screen = pygame.image.load('_img/bg_green.jpg').convert()
+
+    player_img = pygame.image.load('_img/snake.png').convert()
+    player_img.set_colorkey(BLACK)
+
+    click_sound = pygame.mixer.Sound('_sound/laser5.ogg')
 
     clock = pygame.time.Clock()
 
@@ -41,12 +40,16 @@ def main():
         for event in pygame.event.get():
             if event.type == QUIT:
                 terminate()
+            elif event.type == MOUSEBUTTONDOWN:
+                click_sound.play()
 
         screen.blit(bg_screen, (0, 0))
 
-        draw_tree(screen, 0, 0)
-        draw_tree(screen, 150, 10)
-        draw_tree(screen, 300, 40)
+        player_pos = pygame.mouse.get_pos()
+        x = player_pos[0]
+        y = player_pos[1]
+
+        screen.blit(player_img, (x, y))
 
         pygame.display.update()
         clock.tick(FPS)
